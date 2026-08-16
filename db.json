@@ -1,0 +1,99 @@
+{
+  "projects": [
+    {
+      "name": "test 3",
+      "description": "test 3",
+      "createdAt": 1783047622,
+      "id": "bsFmkun0Li4",
+      "lastModified": 1786873236
+    },
+    {
+      "name": "test 1",
+      "description": "test 1",
+      "createdAt": 1784806012,
+      "lastModified": 1784806012,
+      "id": "4R--PcwTnd0"
+    },
+    {
+      "name": "test 2",
+      "description": "test 2",
+      "createdAt": 1784824570,
+      "lastModified": 1784824570,
+      "id": "iu925vOEzRc"
+    }
+  ],
+  "tasks": [
+    {
+      "name": "test 3",
+      "description": "test 3",
+      "status": "done",
+      "dueDate": "2026-09-20",
+      "projectId": "bsFmkun0Li4",
+      "createdAt": 1784914741,
+      "lastModified": 1786794160,
+      "id": "L2RyyJteuEQ"
+    },
+    {
+      "name": "test 1",
+      "description": "test 1",
+      "status": "todo",
+      "dueDate": "2026-08-28",
+      "projectId": "bsFmkun0Li4",
+      "createdAt": 1784978087,
+      "lastModified": 1786811088,
+      "id": "vNR1PNXoQ20"
+    },
+    {
+      "name": "test 2",
+      "description": "test 2",
+      "status": "in-progress",
+      "dueDate": "2026-07-15",
+      "projectId": "bsFmkun0Li4",
+      "createdAt": 1784978102,
+      "lastModified": 1784978102,
+      "id": "jZ534ucH-K0"
+    },
+    {
+      "name": "test 1",
+      "description": "test 1",
+      "status": "done",
+      "dueDate": "2026-07-23",
+      "projectId": "4R--PcwTnd0",
+      "createdAt": 1785141522,
+      "lastModified": 1785141522,
+      "id": "0xOcolZ7qiE"
+    },
+    {
+      "name": "test 2",
+      "description": "test 2",
+      "status": "done",
+      "dueDate": "",
+      "projectId": "iu925vOEzRc",
+      "createdAt": 1785141592,
+      "lastModified": 1785141592,
+      "id": "P2kAyeuqDFE"
+    },
+    {
+      "name": "test 1",
+      "description": "test 1",
+      "status": "todo",
+      "dueDate": "2026-07-23",
+      "projectId": "iu925vOEzRc",
+      "createdAt": 1785141603,
+      "lastModified": 1785141603,
+      "id": "zuCr54FWUA8"
+    }
+  ],
+  "users": [
+    {
+      "username": "duchieu",
+      "password": "Duchieu123@",
+      "confirmPassword": "Duchieu123@",
+      "email": "nguyenduchieu06042003@gmail.com",
+      "fullname": "Nguyễn Đức Hiếu",
+      "age": 25,
+      "id": "VbpJ7RxGo1c"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

@@ -1,0 +1,151 @@
+import { useState, useMemo } from "react"
+import { useParams, Link } from "react-router-dom"
+import taskApi from "../services/taskApi.js"
+import TaskCard from "../components/TaskCard.jsx"
+import TaskForm from "../components/TaskForm.jsx"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCircleArrowLeft } from "@fortawesome/free-solid-svg-icons"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+    
+export default function ProjectDetail() {
+    console.log("Đang render ProjectDetail")
+    const { projectId } = useParams()
+    const {
+        data: tasks = [],
+        isLoading,
+        isFetching,
+        isError,
+        error,
+        refetch,
+    } = useQuery({
+        queryKey: ["tasks", { projectId }],
+        queryFn: ({ signal }) => taskApi.getProjectTasks(projectId, signal),
+    })
+    const [isFormOpen, setIsFormOpen] = useState({ state: false, taskId: null })
+    
+
+    const todoTasks = useMemo(() => {
+        return tasks.filter(task => task.status === "todo");
+    }, [tasks]);
+
+    const inProgressTasks = useMemo(() => {
+        return tasks.filter(task => task.status === "in-progress");
+    }, [tasks]);
+
+    const doneTasks = useMemo(() => {
+        return tasks.filter(task => task.status === "done");
+    }, [tasks]);
+
+
+
+    return (
+        <div className="flex flex-col h-full gap-2">
+            <div className="bg-gray-300 py-4 mb-4">
+                <h1 className="text-center font-bold text-blue-500 font-times">Chi tiết dự án</h1>
+            </div>
+
+            <div className="flex px-4">
+                <Link className="flex gap-3 items-center rounded-xl p-2 bg-gray-200 hover:bg-gray-600" to="/projects">
+                    <FontAwesomeIcon icon={faCircleArrowLeft} />
+                    Danh sách dự án
+                </Link>
+                <div className="flex-1 flex justify-end gap-2">
+                    <button 
+                        className="bg-blue-400 rounded-xl p-2 hover:bg-blue-600"
+                        onClick={() => refetch()}
+                    >
+                        {isFetching ? "Đang tải..." : "Tải lại"}
+                    </button>
+                    {!isFormOpen.state && (
+                        <button 
+                            className="bg-green-400 rounded-xl p-2 hover:bg-green-600"
+                            onClick={() => setIsFormOpen({ state: true, taskId: null })}
+                        >
+                            Thêm task
+                        </button>
+                    )}                    
+                </div>
+
+            </div>
+
+            <div className="space-y-6 p-4 flex-1 overflow-y-auto">
+                {isFormOpen.state && (
+                    <TaskForm
+                        key={isFormOpen.taskId || "new-task"}
+                        initialData={isFormOpen.taskId ? tasks.find(task => task.id === isFormOpen.taskId) : null}
+                        onClose={() => setIsFormOpen({ state: false, taskId: null })}
+                    />
+                )}
+
+                <div>
+                    <h2 className="text-xl text-center font-bold font-times">Danh sách task</h2>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 px-4">
+            
+                    <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <h3 className="text-lg font-semibold text-slate-700 mb-4 flex items-center justify-between">
+                            <span>Cần làm</span>
+                            <span className="bg-slate-200 text-slate-600 text-xs px-2 py-1 rounded-full">
+                                {todoTasks.length}
+                            </span>
+                        </h3>
+                        
+                        <div className="space-y-3">
+                            {todoTasks.map(task => (
+                                <TaskCard
+                                    key={task.id}
+                                    task={task}
+                                    onEdit={() => setIsFormOpen({ state: true, taskId: task.id })}
+                                    editDisabled={isFormOpen.state}
+                                    deleteDisabled={isFormOpen.state && isFormOpen.taskId === task.id}
+                                />
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="bg-blue-50/50 p-4 rounded-xl border border-blue-100">
+                        <h3 className="text-lg font-semibold text-blue-700 mb-4 flex items-center justify-between">
+                            <span>Đang làm</span>
+                            <span className="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full">
+                                {inProgressTasks.length}
+                            </span>
+                        </h3>
+                        <div className="space-y-3">
+                            {inProgressTasks.map(task => (
+                                <TaskCard
+                                    key={task.id}
+                                    task={task}
+                                    onEdit={() => setIsFormOpen({ state: true, taskId: task.id })}
+                                    editDisabled={isFormOpen.state}
+                                    deleteDisabled={isFormOpen.state && isFormOpen.taskId === task.id}
+                                />
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100">
+                        <h3 className="text-lg font-semibold text-emerald-700 mb-4 flex items-center justify-between">
+                            <span>Đã xong</span>
+                            <span className="bg-emerald-100 text-emerald-600 text-xs px-2 py-1 rounded-full">
+                                {doneTasks.length}
+                            </span>
+                        </h3>
+                        <div className="space-y-3">
+                            {doneTasks.map(task => (
+                                <TaskCard
+                                    key={task.id}
+                                    task={task}
+                                    onEdit={() => setIsFormOpen({ state: true, taskId: task.id })}
+                                    editDisabled={isFormOpen.state}
+                                    deleteDisabled={isFormOpen.state && isFormOpen.taskId === task.id}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+
+    )
+}
