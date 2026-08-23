@@ -1,13 +1,24 @@
 import { Outlet, NavLink } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+// import { useAuth } from "../context/AuthContext";
+import { useAuthStoreActions, useAuthStore } from "../stores/useAuthStore.js";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function RootLayout() {
-  const { user, logout } = useAuth();
-  const activeClassName = ({isActive}) => {
+  // const { user, logout } = useAuth();
+  const user = useAuthStore((state) => state.user);
+  const { logout } = useAuthStoreActions();
+  const queryClient = useQueryClient();
+  
+  const activeClassName = ({ isActive }) => {
     const baseClass = "text-center p-2 rounded-xl border-2 border-gray-300";
     const activeClass = "text-blue-500 font-bold bg-white";
     const inactiveClass = "text-black bg-white";
     return isActive ? `${baseClass} ${activeClass}` : `${baseClass} ${inactiveClass}`;
+  };
+
+  const handleLogout = () => {
+    logout();
+    queryClient.clear();
   };
 
   return (
@@ -36,7 +47,7 @@ export default function RootLayout() {
           <div className="mt-auto flex justify-center">
             <button
               className="rounded-full bg-blue-500 text-white font-bold px-3 py-2 text-sm hover:bg-blue-700 hover:cursor-pointer"
-              onClick={logout}
+              onClick={handleLogout}
             >
               Đăng xuất
             </button>

@@ -68,9 +68,9 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
+      {/* <AuthProvider> */}
         <RouterProvider router={router} />
-      </AuthProvider>
+      {/* </AuthProvider> */}
     </QueryClientProvider>
 
   )

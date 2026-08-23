@@ -7,37 +7,22 @@ const AuthContext = createContext();
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    // Check if user is logged in
     const storedUser = localStorage.getItem('user');
-    setTimeout(() => {
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
-      setLoading(false);
-    }, 3000);
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    setTimeout(() => setLoading(false), 3000);
+
   }, []);
 
-  const login = async (userData) => {
-    try {
-      const { username, password } = userData;
-      const user = await userApi.login(username, password);
+  const login = (user) => {
 
-      const userInfo = {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        fullname: user.fullname,
-      }
+    setUser(userInfo);
+    localStorage.setItem('user', JSON.stringify(userInfo));
 
-      setUser(userInfo);
-      localStorage.setItem('user', JSON.stringify(userInfo));
-    } catch (error) {
-      throw error;
-    }
   };
 
   const logout = () => {

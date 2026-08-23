@@ -1,9 +1,11 @@
-import { useAuth } from '../context/AuthContext.jsx'
+// import { useAuth } from '../context/AuthContext.jsx'
+import { useAuthStoreActions } from '../stores/useAuthStore.js'
 import { useNavigate, Link } from 'react-router-dom'
 import InputField from '../components/InputField.jsx'
 import { LoginSchema } from '../schema/userSchema.js'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import userApi from '../services/userApi.js';
 
 export default function Login(){
     const {
@@ -14,14 +16,22 @@ export default function Login(){
     } = useForm({
         resolver: zodResolver(LoginSchema)
     });
-    const { login } = useAuth();
+    // const { login } = useAuth();
+    const { login } = useAuthStoreActions();
     const navigate = useNavigate();
 
 
     const onSubmit = async (data) => {
 
         try {
-            await login(data);
+            const user = await userApi.login(data.username, data.password);
+            const userInfo = {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                fullname: user.fullname,
+            }    
+            login(userInfo);
             navigate('/', { replace: true });
 
         } catch (error) {
