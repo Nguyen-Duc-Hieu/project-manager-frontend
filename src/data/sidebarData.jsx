@@ -12,63 +12,7 @@ const sidebarData = [
         label: "Projects",
         path: "/projects"
     },
-    {
-        icon: <FontAwesomeIcon icon={faListCheck} />,
-        label: "Projects",
-        path: "/projects"
-    },
-    {
-        icon: <FontAwesomeIcon icon={faListCheck} />,
-        label: "Projects",
-        path: "/projects"
-    },
-    {
-        icon: <FontAwesomeIcon icon={faListCheck} />,
-        label: "Projects",
-        path: "/projects"
-    },
-    {
-        icon: <FontAwesomeIcon icon={faListCheck} />,
-        label: "Projects",
-        path: "/projects"
-    },
-    {
-        icon: <FontAwesomeIcon icon={faListCheck} />,
-        label: "Projects",
-        path: "/projects"
-    },
-    {
-        icon: <FontAwesomeIcon icon={faListCheck} />,
-        label: "Projects",
-        path: "/projects"
-    },
 
-    {
-        icon: <FontAwesomeIcon icon={faListCheck} />,
-        label: "Projects",
-        path: "/projects"
-    },
-    {
-        icon: <FontAwesomeIcon icon={faListCheck} />,
-        label: "Projects",
-        path: "/projects"
-    },
-
-    {
-        icon: <FontAwesomeIcon icon={faListCheck} />,
-        label: "Projects",
-        path: "/projects"
-    },
-    {
-        icon: <FontAwesomeIcon icon={faListCheck} />,
-        label: "Projects",
-        path: "/projects"
-    },
-    {
-        icon: <FontAwesomeIcon icon={faListCheck} />,
-        label: "Projects",
-        path: "/projects"
-    },
 ]
 
 export default sidebarData
