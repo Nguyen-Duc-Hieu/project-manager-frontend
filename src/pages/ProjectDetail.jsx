@@ -5,7 +5,7 @@ import TaskCard from "../components/TaskCard.jsx"
 import TaskForm from "../components/TaskForm.jsx"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircleArrowLeft } from "@fortawesome/free-solid-svg-icons"
-import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
     
 export default function ProjectDetail() {
     console.log("Đang render ProjectDetail")
@@ -23,7 +23,6 @@ export default function ProjectDetail() {
     })
     const [isFormOpen, setIsFormOpen] = useState({ state: false, taskId: null })
     
-
     const todoTasks = useMemo(() => {
         return tasks.filter(task => task.status === "todo");
     }, [tasks]);
@@ -35,8 +34,6 @@ export default function ProjectDetail() {
     const doneTasks = useMemo(() => {
         return tasks.filter(task => task.status === "done");
     }, [tasks]);
-
-
 
     return (
         <div className="flex flex-col h-full gap-2">

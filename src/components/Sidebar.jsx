@@ -1,0 +1,122 @@
+import { useState, useRef, useEffect, useCallback } from "react";
+import { useAuthStoreActions } from "../stores/useAuthStore.js";
+import { useQueryClient } from "@tanstack/react-query";
+import NavItem from "./NavItem.jsx";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faBars, faRightFromBracket } from "@fortawesome/free-solid-svg-icons"
+import sidebarData from "../data/sidebarData.jsx";
+import { motion } from "framer-motion";
+import { Tooltip } from "react-tooltip";
+
+
+const DEFAULT_WIDTH = 200;
+const MIN_WIDTH = 150;
+const MAX_WIDTH = 400;
+const COLLAPSED_WIDTH = 60;
+
+export default function Sidebar() {
+  const [sidebarWidth, setSidebarWidth] = useState(DEFAULT_WIDTH);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const isResizing = useRef(false);
+
+  const { logout } = useAuthStoreActions();
+  const queryClient = useQueryClient();
+
+
+  const handleLogout = () => {
+    logout();
+    queryClient.clear();
+  };
+
+  const startResizing = useCallback(() => {
+    isResizing.current = true;
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+  }, []);
+
+  const stopResizing = useCallback(() => {
+    isResizing.current = false; ''
+    document.body.style.cursor = 'default';
+    document.body.style.userSelect = 'auto';
+  }, []);
+
+  const handleResizing = useCallback((e) => {
+    if (!isResizing.current) return;
+    const newWidth = e.clientX;
+    if (newWidth >= MIN_WIDTH && newWidth <= MAX_WIDTH) {
+      setSidebarWidth(newWidth);
+    } else if (newWidth < MIN_WIDTH) {
+      setSidebarWidth(MIN_WIDTH);
+      setIsSidebarOpen(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('mousemove', handleResizing);
+    window.addEventListener('mouseup', stopResizing);
+
+    return () => {
+      window.removeEventListener('mousemove', handleResizing);
+      window.removeEventListener('mouseup', stopResizing);
+    };
+  }, [handleResizing, stopResizing]);
+
+  return (
+    <div className="h-full">
+      <motion.aside
+        className="h-full relative flex flex-col p-3 gap-4 bg-slate-200 overflow-x-hidden"
+        initial={{ width: sidebarWidth }}
+        animate={{ width: isSidebarOpen ? sidebarWidth : COLLAPSED_WIDTH }}
+        transition={{ duration: 1, ease: "easeOut" }}
+      >
+        <button
+          className="text-xl cursor-pointer hover:text-blue-500 p-1 text-left"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          data-tooltip-id={!isSidebarOpen ? "sidebar-tooltip" : undefined}
+          data-tooltip-content="Toggle Sidebar"
+        >
+          <FontAwesomeIcon icon={faBars} />
+
+        </button>
+
+        <nav className={`space-y-4 flex-1 overflow-y-auto overflow-x-hidden ${!isSidebarOpen ? 'no-scrollbar' : ''}`}>
+          {sidebarData.map((item, index) => (
+            <NavItem
+              key={index}
+              icon={item.icon}
+              label={item.label}
+              isSidebarOpen={isSidebarOpen}
+              path={item.path}
+              actionOpen={() => setIsSidebarOpen(true)}
+            />
+          ))}
+        </nav>
+
+
+        <button
+          className="text-xl cursor-pointer self-center hover:text-blue-500 p-1"
+          data-tooltip-id={!isSidebarOpen ? "sidebar-tooltip" : undefined}
+          data-tooltip-content="Logout"
+          onClick={handleLogout}
+        >
+          <FontAwesomeIcon icon={faRightFromBracket} />
+        </button>
+
+        {isSidebarOpen && (
+          <div 
+            className="absolute top-0 right-0 h-full w-1 cursor-col-resize select-none z-10 bg-blue-100 hover:bg-blue-300"
+            onMouseDown={startResizing}  
+          >
+          </div>
+        )}
+        
+      </motion.aside>
+      {!isSidebarOpen && (
+        <Tooltip 
+          id="sidebar-tooltip"
+          offset={20}
+        />
+      )}
+    </div>
+  )
+}

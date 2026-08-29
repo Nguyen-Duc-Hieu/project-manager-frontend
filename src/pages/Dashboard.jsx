@@ -2,7 +2,6 @@ import { Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import taskApi from '../services/taskApi.js';
 import projectApi from '../services/projectApi.js';
-import axios from 'axios';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 
@@ -131,7 +130,7 @@ export default function Dashboard() {
                     <motion.div
                       className="bg-green-600 h-3 rounded-full"
                       initial={{ width: 0 }}
-                      animate={{ width: `${progress}%` }}
+                      animate={{ width: `${progress}%` }}f
                       transition={{ duration: 1, ease: 'easeOut' }}
                     >
                     </motion.div>
