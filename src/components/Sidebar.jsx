@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAuthStoreActions } from "../stores/useAuthStore.js";
 import { useQueryClient } from "@tanstack/react-query";
 import NavItem from "./NavItem.jsx";
@@ -9,16 +9,15 @@ import { motion } from "framer-motion";
 import { Tooltip } from "react-tooltip";
 
 
-const DEFAULT_WIDTH = 200;
+const DEFAULT_WIDTH = 250;
 const MIN_WIDTH = 150;
-const MAX_WIDTH = 400;
+const MAX_WIDTH = 360;
 const COLLAPSED_WIDTH = 60;
 
 export default function Sidebar() {
   const [sidebarWidth, setSidebarWidth] = useState(DEFAULT_WIDTH);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const isResizing = useRef(false);
-
+  const [isResizing, setIsResizing] = useState(false);
   const { logout } = useAuthStoreActions();
   const queryClient = useQueryClient();
 
@@ -29,27 +28,28 @@ export default function Sidebar() {
   };
 
   const startResizing = useCallback(() => {
-    isResizing.current = true;
+    setIsResizing(true);
     document.body.style.cursor = 'col-resize';
     document.body.style.userSelect = 'none';
   }, []);
 
   const stopResizing = useCallback(() => {
-    isResizing.current = false; ''
+    setIsResizing(false);
     document.body.style.cursor = 'default';
     document.body.style.userSelect = 'auto';
   }, []);
 
   const handleResizing = useCallback((e) => {
-    if (!isResizing.current) return;
+    if (!isResizing) return;
     const newWidth = e.clientX;
     if (newWidth >= MIN_WIDTH && newWidth <= MAX_WIDTH) {
       setSidebarWidth(newWidth);
     } else if (newWidth < MIN_WIDTH) {
-      setSidebarWidth(MIN_WIDTH);
+      setSidebarWidth(DEFAULT_WIDTH);
       setIsSidebarOpen(false);
+      setIsResizing(false);
     }
-  }, []);
+  }, [isResizing]);
 
   useEffect(() => {
     window.addEventListener('mousemove', handleResizing);
@@ -67,7 +67,11 @@ export default function Sidebar() {
         className="h-full relative flex flex-col p-3 gap-4 bg-slate-200 overflow-x-hidden"
         initial={{ width: sidebarWidth }}
         animate={{ width: isSidebarOpen ? sidebarWidth : COLLAPSED_WIDTH }}
-        transition={{ duration: 1, ease: "easeOut" }}
+        transition={
+          isResizing
+            ? { duration: 0 } 
+            : { duration: 0.8, ease: "easeOut" }
+        }
       >
         <button
           className="text-xl cursor-pointer hover:text-blue-500 p-1 text-left"

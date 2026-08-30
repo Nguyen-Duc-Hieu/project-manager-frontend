@@ -92,8 +92,11 @@ function TaskForm({ initialData, onClose }) {
                 context.previousTasks
             )
         },
-        onSettled: () => {
-            return queryClient.invalidateQueries({ queryKey: ["tasks", { projectId }] })
+        onSettled: async () => {
+            return Promise.all([
+                queryClient.invalidateQueries({ queryKey: ["tasks"], exact: true }),
+                queryClient.invalidateQueries({ queryKey: ["tasks", { projectId }] })
+            ])
         }
     })
 

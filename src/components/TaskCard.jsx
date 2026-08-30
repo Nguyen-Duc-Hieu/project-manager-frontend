@@ -43,7 +43,6 @@ function TaskCard({ task, onEdit, editDisabled, deleteDisabled }) {
     } = useMutation({
         mutationFn: (newStatus) => taskApi.updateTaskStatus(taskId, newStatus),
         onMutate: async (newStatus) => {
-            console.log("Đang ở onMutate của mutation onStatusChange")
             await queryClient.cancelQueries({ queryKey: ["tasks", { projectId }] })
 
             const previousTasks = queryClient.getQueryData(["tasks", { projectId }])
@@ -69,8 +68,10 @@ function TaskCard({ task, onEdit, editDisabled, deleteDisabled }) {
             )
         },
         onSettled: () => {
-            console.log("Đang ở onSettled của mutation onStatusChange")
-            return queryClient.invalidateQueries({ queryKey: ["tasks", { projectId }] })
+            return Promise.all([
+                queryClient.invalidateQueries({ queryKey: ["tasks"], exact: true }),
+                queryClient.invalidateQueries({ queryKey: ["tasks", { projectId }] })
+            ])
         }
     })
     
@@ -135,7 +136,7 @@ function TaskCard({ task, onEdit, editDisabled, deleteDisabled }) {
             <p className="text-lg font-semibold text-center mb-4">{name}</p>
             <p className="text-sm text-gray-500 line-clamp-2 mb-2">Mô tả: {description}</p>
             <p className="text-sm text-gray-500">Tạo: {formatTimestamp(createdAt)}</p>
-            <p className="text-sm text-gray-500">Hạn: {dueDate}</p>
+            <p className="text-sm text-gray-500">Hạn: {formatTimestamp(dueDate)}</p>
             {classifyStatusButton()}
         </div>
     )

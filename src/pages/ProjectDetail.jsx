@@ -4,11 +4,17 @@ import taskApi from "../services/taskApi.js"
 import TaskCard from "../components/TaskCard.jsx"
 import TaskForm from "../components/TaskForm.jsx"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCircleArrowLeft } from "@fortawesome/free-solid-svg-icons"
+import { 
+    faCircleArrowLeft, 
+    faFilter, 
+    faRotateRight,
+    faPlus
+} from "@fortawesome/free-solid-svg-icons"
 import { useQuery } from "@tanstack/react-query"
+import { AnimatePresence } from "framer-motion"
+import TaskFilterForm from "../components/TaskFilterForm.jsx"
     
 export default function ProjectDetail() {
-    console.log("Đang render ProjectDetail")
     const { projectId } = useParams()
     const {
         data: tasks = [],
@@ -22,6 +28,7 @@ export default function ProjectDetail() {
         queryFn: ({ signal }) => taskApi.getProjectTasks(projectId, signal),
     })
     const [isFormOpen, setIsFormOpen] = useState({ state: false, taskId: null })
+    const [isFilterOpen, setIsFilterOpen] = useState(false)
     
     const todoTasks = useMemo(() => {
         return tasks.filter(task => task.status === "todo");
@@ -42,23 +49,32 @@ export default function ProjectDetail() {
             </div>
 
             <div className="flex px-4">
-                <Link className="flex gap-3 items-center rounded-xl p-2 bg-gray-200 hover:bg-gray-600" to="/projects">
+                <Link
+                    className="flex gap-3 items-center rounded-xl p-2 bg-gray-200 hover:bg-gray-600" 
+                    to="/projects"
+                >
                     <FontAwesomeIcon icon={faCircleArrowLeft} />
-                    Danh sách dự án
+                    Projects
                 </Link>
                 <div className="flex-1 flex justify-end gap-2">
-                    <button 
+                    <button
+                        className="bg-slate-300 rounded-xl p-2 hover:bg-slate-600"
+                        onClick={() => setIsFilterOpen(!isFilterOpen)}
+                    >
+                        <FontAwesomeIcon icon={faFilter} />
+                    </button>
+                    <button
                         className="bg-blue-400 rounded-xl p-2 hover:bg-blue-600"
                         onClick={() => refetch()}
                     >
-                        {isFetching ? "Đang tải..." : "Tải lại"}
+                        {isFetching ? "Refetching..." : (<FontAwesomeIcon icon={faRotateRight} />)}
                     </button>
                     {!isFormOpen.state && (
-                        <button 
+                        <button
                             className="bg-green-400 rounded-xl p-2 hover:bg-green-600"
                             onClick={() => setIsFormOpen({ state: true, taskId: null })}
                         >
-                            Thêm task
+                            <FontAwesomeIcon icon={faPlus} />
                         </button>
                     )}                    
                 </div>
@@ -75,8 +91,20 @@ export default function ProjectDetail() {
                 )}
 
                 <div>
-                    <h2 className="text-xl text-center font-bold font-times">Danh sách task</h2>
+                    <h2 className="text-2xl text-center font-bold">Danh sách task</h2>
                 </div>
+
+                <AnimatePresence>
+                    {isFilterOpen && (
+                        <TaskFilterForm
+                            onClose={() => setIsFilterOpen(false)}
+                        />
+                    )}
+
+                </AnimatePresence>
+
+
+                
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 px-4">
             
