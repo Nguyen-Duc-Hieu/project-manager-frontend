@@ -29,18 +29,40 @@ export default function ProjectDetail() {
     })
     const [isFormOpen, setIsFormOpen] = useState({ state: false, taskId: null })
     const [isFilterOpen, setIsFilterOpen] = useState(false)
-    
+    const [filterData, setFilterData] = useState({
+        duedate: [],
+        priority: []
+    })
+
+    console.log("Filter data in ProjectDetail:", filterData)
+
+    const filteredTasks = useMemo(() => {
+        return tasks.filter(task => {
+            // Logic to filter tasks based on due date and priority
+            const dueDateUnixTimestamp = new Date(task.dueDate).getTime()
+            const currentUnixTimestamp = Date.now()
+            const overDue = dueDateUnixTimestamp < currentUnixTimestamp
+            const isDueDateMatch = (filterData.duedate.length === 0) 
+                || (filterData.duedate.includes("overdue") && overDue)
+                || (filterData.duedate.includes("upcoming") && !overDue)
+
+            const isPriorityMatch = filterData.priority.length === 0 || filterData.priority.includes(task.priority); // If no priority filter is selected, include all tasks
+
+            return isDueDateMatch && isPriorityMatch;
+        });
+    }, [tasks, filterData]);
+
     const todoTasks = useMemo(() => {
-        return tasks.filter(task => task.status === "todo");
-    }, [tasks]);
+        return filteredTasks.filter(task => task.status === "todo");
+    }, [filteredTasks]);
 
     const inProgressTasks = useMemo(() => {
-        return tasks.filter(task => task.status === "in-progress");
-    }, [tasks]);
+        return filteredTasks.filter(task => task.status === "in-progress");
+    }, [filteredTasks]);
 
     const doneTasks = useMemo(() => {
-        return tasks.filter(task => task.status === "done");
-    }, [tasks]);
+        return filteredTasks.filter(task => task.status === "done");
+    }, [filteredTasks]);
 
     return (
         <div className="flex flex-col h-full gap-2">
@@ -97,6 +119,8 @@ export default function ProjectDetail() {
                 <AnimatePresence>
                     {isFilterOpen && (
                         <TaskFilterForm
+                            filterData={filterData}
+                            setFilterData={setFilterData}
                             onClose={() => setIsFilterOpen(false)}
                         />
                     )}

@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import taskApi from "../services/taskApi.js"
 
 function TaskCard({ task, onEdit, editDisabled, deleteDisabled }) {
-    const { id: taskId, projectId, name, description, status, createdAt, dueDate } = task
+    const { id: taskId, projectId, name, description, status, priority, createdAt, dueDate } = task
     const queryClient = useQueryClient()
     const {
         mutate: onDelete,
@@ -136,6 +136,11 @@ function TaskCard({ task, onEdit, editDisabled, deleteDisabled }) {
             <p className="text-lg font-semibold text-center mb-4">{name}</p>
             <p className="text-sm text-gray-500 line-clamp-2 mb-2">Mô tả: {description}</p>
             <p className="text-sm text-gray-500">Tạo: {formatTimestamp(createdAt)}</p>
+            <p 
+                className={`text-sm ${priority === "high" ? "text-red-500" : priority === "medium" ? "text-yellow-500" : "text-green-500"}`}
+            >
+                Độ ưu tiên: {priority}
+            </p>
             <p className="text-sm text-gray-500">Hạn: {formatTimestamp(dueDate)}</p>
             {classifyStatusButton()}
         </div>

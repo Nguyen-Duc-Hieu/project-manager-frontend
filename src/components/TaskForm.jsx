@@ -20,6 +20,7 @@ function TaskForm({ initialData, onClose }) {
             name: initialData?.name ?? "",
             description: initialData?.description ?? "",
             status: initialData?.status ?? "",
+            priority: initialData?.priority ?? "",
             dueDate: initialData?.dueDate ?? ""
         }
     })
@@ -34,6 +35,7 @@ function TaskForm({ initialData, onClose }) {
                 name: initialData?.name ?? "",
                 description: initialData?.description ?? "",
                 status: initialData?.status ?? "",
+                priority: initialData?.priority ?? "",
                 dueDate: initialData?.dueDate ?? ""
             })
         }
@@ -138,6 +140,23 @@ function TaskForm({ initialData, onClose }) {
                 {errors.status && (
                     <p className="font-semibold text-red-500 text-sm">
                         Lỗi: {errors.status.message}
+                    </p>
+                )}
+
+                <label className="font-semibold text-gray-500" htmlFor="priority">Độ ưu tiên</label>
+                <select
+                    id="priority"
+                    className="border border-gray-300 rounded p-1"
+                    {...register("priority")}
+                >
+                    <option value="">-- Chọn priority --</option>
+                    <option value="low">Thấp</option>
+                    <option value="medium">Trung bình</option>
+                    <option value="high">Cao</option>
+                </select>
+                {errors.priority && (
+                    <p className="font-semibold text-red-500 text-sm">
+                        Lỗi: {errors.priority.message}
                     </p>
                 )}
 

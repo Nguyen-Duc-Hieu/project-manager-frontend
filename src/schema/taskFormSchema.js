@@ -13,6 +13,10 @@ export const taskFormSchema = z.object({
         .enum(["todo", "in-progress", "done"], {
             errorMap: () => ({ message: "Vui lòng chọn status hợp lệ" }),
         }),
+    priority: z
+        .enum(["low", "medium", "high"], {
+            errorMap: () => ({ message: "Vui lòng chọn priority hợp lệ" }),
+        }),
     dueDate: z
         .string().min(1, "Không được bỏ trống hạn chót task")
         .refine(
