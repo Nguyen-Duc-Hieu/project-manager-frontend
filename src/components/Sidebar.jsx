@@ -7,6 +7,7 @@ import { faBars, faRightFromBracket } from "@fortawesome/free-solid-svg-icons"
 import sidebarData from "../data/sidebarData.jsx";
 import { motion } from "framer-motion";
 import { Tooltip } from "react-tooltip";
+import ThemeToggle from "./ThemeToggle.jsx"
 
 
 const DEFAULT_WIDTH = 250;
@@ -62,9 +63,9 @@ export default function Sidebar() {
   }, [handleResizing, stopResizing]);
 
   return (
-    <div className="h-full">
+    <div className="h-full bg-slate-200 text-black dark:bg-slate-900 dark:text-white">
       <motion.aside
-        className="h-full relative flex flex-col p-3 gap-4 bg-slate-200 overflow-x-hidden"
+        className="h-full relative flex flex-col p-3 gap-4 overflow-x-hidden "
         initial={{ width: sidebarWidth }}
         animate={{ width: isSidebarOpen ? sidebarWidth : COLLAPSED_WIDTH }}
         transition={
@@ -73,15 +74,19 @@ export default function Sidebar() {
             : { duration: 0.8, ease: "easeOut" }
         }
       >
-        <button
-          className="text-xl cursor-pointer hover:text-blue-500 p-1 text-left"
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          data-tooltip-id={!isSidebarOpen ? "sidebar-tooltip" : undefined}
-          data-tooltip-content="Toggle Sidebar"
-        >
-          <FontAwesomeIcon icon={faBars} />
+        <div className="flex justify-between">
+          <button
+            className="text-xl cursor-pointer p-1 hover:text-blue-500"
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            data-tooltip-id={!isSidebarOpen ? "sidebar-tooltip" : undefined}
+            data-tooltip-content="Toggle Sidebar"
+          >
+            <FontAwesomeIcon icon={faBars} />
 
-        </button>
+          </button>
+          {isSidebarOpen && <ThemeToggle />}
+        </div>
+        
 
         <nav className={`space-y-4 flex-1 overflow-y-auto overflow-x-hidden ${!isSidebarOpen ? 'no-scrollbar' : ''}`}>
           {sidebarData.map((item, index) => (

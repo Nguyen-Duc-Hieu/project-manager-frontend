@@ -22,7 +22,7 @@ export default function ProjectList() {
 
     if (isLoading || isFetching) {
         return (
-            <div className="h-full flex flex-col gap-4">
+            <div className="h-full flex flex-col gap-4 dark:bg-slate-900">
                 <div className="bg-gray-300 py-4">
                     <h1 className="text-center font-bold text-blue-500 font-times">Tổng quan hệ thống</h1>
                 </div>
@@ -41,9 +41,9 @@ export default function ProjectList() {
     }
 
     return (
-        <div className="flex flex-col h-full">
-            <div className="bg-gray-300 py-4">
-                <h1 className="text-center font-bold text-blue-500 font-times">Danh sách dự án</h1>
+        <div className="flex flex-col h-full dark:bg-slate-900">
+            <div className="bg-gray-300 py-4 text-center font-bold text-blue-500 font-times dark:bg-blue-300 dark:text-slate-700">
+                <h1 className="">Danh sách dự án</h1>
             </div>
 
             <div className="p-4 space-y-4 flex-1 overflow-y-auto">

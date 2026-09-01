@@ -5,7 +5,7 @@ export default function NavItem({ icon, label, isSidebarOpen, path, actionOpen }
 
   const activeClassName = ({ isActive }) => {
     const baseClass = "flex items-center gap-2 p-1 rounded-md overflow-x-hidden";
-    const activeClass = isActive ? baseClass + " bg-blue-400 text-white" : baseClass + " hover:bg-blue-200";
+    const activeClass = isActive ? baseClass + " bg-blue-400 text-white" : baseClass + " hover:bg-blue-200 dark:hover:bg-blue-600";
     return activeClass;
   };
 

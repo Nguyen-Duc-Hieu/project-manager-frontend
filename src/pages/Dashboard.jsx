@@ -82,12 +82,12 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="h-full flex flex-col gap-4">
-      <div className="bg-gray-300 py-4">
-          <h1 className="text-center font-bold text-blue-500 font-times">Tổng quan hệ thống</h1>
+    <div className="h-full flex flex-col gap-4 dark:bg-slate-900">
+      <div className="bg-slate-300 text-blue-600 text-center font-bold py-4 font-times dark:bg-blue-300 dark:text-slate-700">
+          <h1>Tổng quan hệ thống</h1>
       </div>
 
-      <div className="space-y-6 flex-1 overflow-y-auto p-2">
+      <div className="flex flex-col space-y-6 flex-1 p-2 overflow-y-auto md:overflow-y-hidden">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md">
             <p className="text-sm font-medium text-gray-500">Tổng số dự án</p>
@@ -106,7 +106,7 @@ export default function Dashboard() {
         </div>
 
         {/* TIẾN ĐỘ DỰ ÁN (PROGRESS BAR) */}
-        <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-6">
+        <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-4 md:overflow-y-auto">
           <h2 className="text-lg font-bold text-gray-900">Tiến độ dự án</h2>
 
           <div className="space-y-4">
