@@ -12,7 +12,7 @@ export default function StarRating({ rating, onRatingChange, disabled }) {
                     type="button"
                     onClick={() => !disabled && onRatingChange?.(value)}
                     className={`
-                        ${(value <= rating) ? "text-yellow-500" : "text-gray-500"}
+                        ${(value <= rating) ? "text-yellow-500" : "text-gray-300"}
                         ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
                     `}
                     disabled={disabled}
