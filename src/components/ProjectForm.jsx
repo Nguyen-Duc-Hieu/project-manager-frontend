@@ -1,15 +1,18 @@
-import { useForm } from "react-hook-form"
+import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { projectFormSchema } from "../schema/projectFormSchema"
 import TextareaField from "./TextareaField.jsx"
 import InputField from "./InputField.jsx"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import projectApi from "../services/projectApi.js"
+import AcceptToggle from "./AcceptToggle.jsx"
+import DifficultyRating from "./DifficultyRating.jsx"
 
 function ProjectForm({ initialData, onClose }) {
-
+    console.log("component ProjectForm rendered with initialData:", initialData)
     const {
         register,
+        control,
         handleSubmit,
         formState: { errors },
         reset,
@@ -18,6 +21,9 @@ function ProjectForm({ initialData, onClose }) {
         defaultValues: {
             name: initialData?.name ?? "",
             description: initialData?.description ?? "",
+            difficulty: initialData?.difficulty ?? 0,
+            isAccepted: initialData?.isAccepted ?? false,
+            
         }
     })
 
@@ -33,8 +39,6 @@ function ProjectForm({ initialData, onClose }) {
             : projectApi.addProject({ ...formData, createdAt: Math.floor(Date.now() / 1000), lastModified: Math.floor(Date.now() / 1000) })
         ),
         onMutate: async (formData) => {
-            // Debug onMutate
-            console.log("onMutate called with formData:", formData)
 
             console.log(initialData ? "Sửa dự án" : "Thêm dự án", formData)
             
@@ -92,7 +96,7 @@ function ProjectForm({ initialData, onClose }) {
     return (
         <div>
             <form
-                className="flex flex-col gap-2 border-2 border-gray-300 rounded-2xl p-4"
+                className="flex flex-col gap-2 border-2 border-gray-300 rounded-2xl p-4 bg-slate-100 text-black dark:text-white dark:bg-blue-400"
                 onSubmit={handleSubmit(mutate)}
             >
 
@@ -109,6 +113,31 @@ function ProjectForm({ initialData, onClose }) {
                     placeholder="Nhập mô tả dự án..."
                     {...register("description")}
                     error={errors.description?.message}
+                />
+
+                <Controller
+                    name="difficulty"
+                    control={control}
+                    render={({ field }) => (
+                        <DifficultyRating
+                            difficulty={field.value}
+                            onDifficultyChange={field.onChange}
+                            disabled={isPending}
+                            error={errors.difficulty?.message}
+                        />
+                    )}
+                />
+
+                <Controller
+                    name="isAccepted"
+                    control={control}
+                    render={({ field }) => (
+                        <AcceptToggle 
+                            isAccepted={field.value}
+                            onToggle={field.onChange}
+                            disabled={isPending}
+                        />
+                    )}
                 />
 
                 <div className="flex justify-end gap-2">

@@ -73,17 +73,25 @@ export default function ProjectList() {
                     />
                 )}
 
-                <div className="grid grid-cols-1 md:grid-cols-2 items-start gap-2 p-2 border-2 border-gray-300 rounded">
-                    {projects.map((project) => (
-                        <ProjectCard
-                            key={project.id}
-                            project={project}
-                            onEdit={() => setIsFormOpen({ state: true, id: project.id })}
-                            editDisabled={isFormOpen.state}
-                            deleteDisabled={isFormOpen.state && isFormOpen.id === project.id}
-                        />
-                    ))}
-                </div>
+                {projects.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 items-start gap-2 p-2 border-2 border-gray-300 rounded">
+                        {projects.map((project) => (
+                            <ProjectCard
+                                key={project.id}
+                                project={project}
+                                onEdit={() => setIsFormOpen({ state: true, id: project.id })}
+                                editDisabled={isFormOpen.state}
+                                deleteDisabled={isFormOpen.state && isFormOpen.id === project.id}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <p className="text-center text-xl text-gray-500 dark:text-blue-500">
+                        Không có dự án nào. Vui lòng nhấn nút "Thêm dự án" để tạo dự án mới.
+                    </p>
+                )}
+
+                
             </div>
         </div>
     )

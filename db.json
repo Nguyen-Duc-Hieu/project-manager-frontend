@@ -3,60 +3,31 @@
     {
       "name": "test 1",
       "description": "test 1",
-      "createdAt": 1783047622,
-      "id": "bsFmkun0Li4",
-      "lastModified": 1788146100
+      "difficulty": 2,
+      "createdAt": 1788596520,
+      "lastModified": 1788596851,
+      "id": "1UjIn_zo200",
+      "isAccepted": false
     },
     {
       "name": "test 2",
       "description": "test 2",
-      "createdAt": 1784806012,
-      "lastModified": 1788146109,
-      "id": "4R--PcwTnd0"
+      "difficulty": 3,
+      "createdAt": 1788596574,
+      "lastModified": 1788596824,
+      "id": "lQJEPRdM_qw",
+      "isAccepted": true
     },
     {
       "name": "test 3",
       "description": "test 3",
-      "createdAt": 1784824570,
-      "lastModified": 1788146119,
-      "id": "iu925vOEzRc"
+      "difficulty": 2,
+      "createdAt": 1788596749,
+      "lastModified": 1788596749,
+      "id": "V6IQz5jqdPo"
     }
   ],
-  "tasks": [
-    {
-      "name": "test 1",
-      "description": "test 2",
-      "status": "todo",
-      "priority": "medium",
-      "dueDate": "2026-10-02",
-      "projectId": "bsFmkun0Li4",
-      "createdAt": 1788164100,
-      "lastModified": 1788164100,
-      "id": "KwOEmQgS3HY"
-    },
-    {
-      "name": "test 2",
-      "description": "test 2",
-      "status": "todo",
-      "priority": "low",
-      "dueDate": "2026-09-01",
-      "projectId": "bsFmkun0Li4",
-      "createdAt": 1788164113,
-      "lastModified": 1788164113,
-      "id": "blDCXfK7YMc"
-    },
-    {
-      "name": "test 3",
-      "description": "test 3",
-      "status": "done",
-      "priority": "high",
-      "dueDate": "2026-09-04",
-      "projectId": "bsFmkun0Li4",
-      "createdAt": 1788164132,
-      "lastModified": 1788164132,
-      "id": "LOkzonww2CM"
-    }
-  ],
+  "tasks": [],
   "users": [
     {
       "username": "duchieu",
