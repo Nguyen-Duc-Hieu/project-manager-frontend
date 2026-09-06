@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware'
-
+import { useThemeStore } from './useThemeStore';
 
 
 export const useAuthStore = create(
@@ -15,6 +15,7 @@ export const useAuthStore = create(
                 logout: () => {
                     const userName = get().user?.username || "Unknown";
                     set({ user: null, isAuthenticated: false });
+                    useThemeStore.getState().setLightTheme(); // Reset theme to light on logout
                     console.log(`Người dùng ${userName} đã đăng xuất, xóa thông tin user khỏi localStorage`);
                 },
                 checkUser: () => {

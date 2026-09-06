@@ -44,7 +44,7 @@ export default function Login(){
     }
 
     return (
-        <div className="h-screen flex items-center justify-center bg-blue-500">
+        <div className="h-screen flex items-center justify-center bg-blue-500 dark:bg-gray-500">
             <form
                 className="rounded-xl shadow-md flex flex-col bg-white p-8 gap-4 w-1/2"
                 onSubmit={handleSubmit(onSubmit)}

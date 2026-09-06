@@ -1,6 +1,8 @@
 import React from 'react';
 
 const InputField = React.forwardRef(({ label, type, name, placeholder, error, ...remain }, ref) => {
+    
+    
     return (
         <div className="flex flex-col gap-2">
             <label className="font-semibold" htmlFor={name}>{label}</label>

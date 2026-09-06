@@ -9,7 +9,6 @@ import AcceptToggle from "./AcceptToggle.jsx"
 import DifficultyRating from "./DifficultyRating.jsx"
 
 function ProjectForm({ initialData, onClose }) {
-    console.log("component ProjectForm rendered with initialData:", initialData)
     const {
         register,
         control,

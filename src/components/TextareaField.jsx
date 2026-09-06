@@ -1,6 +1,7 @@
 import React from 'react';
 
 const TextareaField = React.forwardRef(({ label, name, placeholder, error, ...remain }, ref) => {
+    // console.log("TextareaField rendered with name:", name, "error:", error);
     return (
         <div className="flex flex-col gap-2">
             <label className="font-semibold" htmlFor={name}>{label}</label>

@@ -130,7 +130,7 @@ export default function Dashboard() {
                     <motion.div
                       className="bg-green-600 h-3 rounded-full"
                       initial={{ width: 0 }}
-                      animate={{ width: `${progress}%` }}f
+                      animate={{ width: `${progress}%` }}
                       transition={{ duration: 1, ease: 'easeOut' }}
                     >
                     </motion.div>

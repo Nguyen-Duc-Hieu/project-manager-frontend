@@ -10,8 +10,6 @@ export default function ProjectList() {
         data: projects,
         isLoading,
         isFetching,
-        isError,
-        error,
         refetch
     } = useQuery({
         queryKey: ["projects"],

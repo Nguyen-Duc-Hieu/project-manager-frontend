@@ -10,7 +10,9 @@
       const savedTheme = themeStore ? JSON.parse(themeStore).state.theme : null;
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       
-      if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      if (
+        savedTheme === 'dark' || (!savedTheme && prefersDark)
+      ) {
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');
