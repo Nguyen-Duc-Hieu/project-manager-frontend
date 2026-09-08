@@ -1,6 +1,6 @@
 // import { useAuth } from '../context/AuthContext.jsx'
 import { useAuthStoreActions } from '../stores/useAuthStore.js'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useLocation } from 'react-router-dom'
 import InputField from '../components/InputField.jsx'
 import { LoginSchema } from '../schema/userSchema.js'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -19,6 +19,8 @@ export default function Login(){
     // const { login } = useAuth();
     const { login } = useAuthStoreActions();
     const navigate = useNavigate();
+    const location = useLocation();
+    const previousPath = location.state?.from?.pathname || '/';
 
 
     const onSubmit = async (data) => {
@@ -30,9 +32,10 @@ export default function Login(){
                 username: user.username,
                 email: user.email,
                 fullname: user.fullname,
+                permissions: user.permissions
             }    
             login(userInfo);
-            navigate('/', { replace: true });
+            navigate(previousPath, { replace: true });
 
         } catch (error) {
             setError("formError", {

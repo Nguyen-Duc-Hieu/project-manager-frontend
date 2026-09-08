@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import projectApi from "../services/projectApi.js";
 import StarRating from "./StarRating.jsx";
+import { PERMISSIONS } from '../data/permissionData.js';
+import CanAccess from "./CanAccess.jsx";
 
 function ProjectCard({ project, onEdit, editDisabled, deleteDisabled }) {
 
@@ -64,20 +66,24 @@ function ProjectCard({ project, onEdit, editDisabled, deleteDisabled }) {
                         />
                     </div>
                     <div className="flex justify-end gap-2">
-                        <button 
-                            className="bg-green-500 text-white border rounded-xl p-2 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                            onClick={onEdit}
-                            disabled={editDisabled}
-                        >
-                            Sửa
-                        </button>
-                        <button 
-                            className="bg-red-500 text-white border rounded-xl p-2 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                            onClick={mutate}
-                            disabled={deleteDisabled}
-                        >
-                            Xóa
-                        </button>
+                        <CanAccess permissions={[PERMISSIONS.PROJECT_UPDATE]}>
+                            <button 
+                                className="bg-green-500 text-white border rounded-xl p-2 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                                onClick={onEdit}
+                                disabled={editDisabled}
+                            >
+                                Edit
+                            </button>
+                        </CanAccess>
+                        <CanAccess permissions={[PERMISSIONS.PROJECT_DELETE]}>
+                            <button 
+                                className="bg-red-500 text-white border rounded-xl p-2 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                                onClick={mutate}
+                                disabled={deleteDisabled}
+                            >
+                                Delete
+                            </button>
+                        </CanAccess>
                         <Link
                             to={`/projects/${id}`}
                             className="bg-blue-500 text-white border rounded-xl p-2 flex items-center hover:bg-blue-700"

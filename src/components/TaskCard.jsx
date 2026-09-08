@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircleArrowLeft, faCircleArrowRight } from "@fortawesome/free-solid-svg-icons"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import taskApi from "../services/taskApi.js"
+import { PERMISSIONS } from "../data/permissionData.js"
+import CanAccess from "./CanAccess.jsx"
 
 function TaskCard({ task, onEdit, editDisabled, deleteDisabled }) {
     const { id: taskId, projectId, name, description, status, priority, createdAt, dueDate } = task
@@ -78,54 +80,63 @@ function TaskCard({ task, onEdit, editDisabled, deleteDisabled }) {
     const classifyStatusButton = () => {
         return (
             <div className="grid grid-cols-2 mt-2 text-sm gap-2">
-
-                <button
-                    className="rounded-xl bg-blue-400 p-2 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
-                    onClick={onEdit}
-                    disabled={editDisabled}
+                <CanAccess 
+                    permissions={[PERMISSIONS.TASK_UPDATE, PERMISSIONS.TASK_DELETE]} 
+                    requiredAll={true}
                 >
-                    Edit
-                </button>
-                <button
-                    className="rounded-xl bg-red-400 p-2 hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
-                    onClick={onDelete}
-                    disabled={deleteDisabled}
-                >
-                    Delete
-                </button>
-                {status !== "in-progress" ? (
                     <button
-                        className="rounded-xl bg-yellow-300 p-2 col-span-2 hover:bg-yellow-600"
-                        onClick={() => onStatusChange("in-progress")}
+                        className="rounded-xl bg-blue-400 p-2 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                        onClick={onEdit}
+                        disabled={editDisabled}
                     >
-                        {status === "todo" ? (
-                            <>
-                                In-progress <FontAwesomeIcon icon={faCircleArrowRight} />
-                            </>
-                        ) : (
-                            <>
-                                <FontAwesomeIcon icon={faCircleArrowLeft} /> In-progress
-                            </>
-                        )}
+                        Edit
                     </button>
-                ) : (
                     <button
-                        className="rounded-xl bg-gray-500 p-2 hover:bg-yellow-700"
-                        onClick={() => onStatusChange("todo")}
+                        className="rounded-xl bg-red-400 p-2 hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                        onClick={onDelete}
+                        disabled={deleteDisabled}
                     >
-                        <FontAwesomeIcon icon={faCircleArrowLeft} /> Todo
+                        Delete
                     </button>
-                )}
-
-                {status === "in-progress" && (
-                    <button 
-                        className="rounded-xl bg-green-500 p-2 hover:bg-green-700"
-                        onClick={() => onStatusChange("done")}
-                    >
-                        Done <FontAwesomeIcon icon={faCircleArrowRight} />
-                    </button>
-                )}
+                </CanAccess>
                 
+                <CanAccess 
+                    permissions={[PERMISSIONS.TASK_STATUS_UPDATE]} 
+                    requiredAll={true}
+                >
+                    {status !== "in-progress" ? (
+                        <button
+                            className="rounded-xl bg-yellow-300 p-2 col-span-2 hover:bg-yellow-600"
+                            onClick={() => onStatusChange("in-progress")}
+                        >
+                            {status === "todo" ? (
+                                <>
+                                    In-progress <FontAwesomeIcon icon={faCircleArrowRight} />
+                                </>
+                            ) : (
+                                <>
+                                    <FontAwesomeIcon icon={faCircleArrowLeft} /> In-progress
+                                </>
+                            )}
+                        </button>
+                    ) : (
+                        <button
+                            className="rounded-xl bg-gray-500 p-2 hover:bg-yellow-700"
+                            onClick={() => onStatusChange("todo")}
+                        >
+                            <FontAwesomeIcon icon={faCircleArrowLeft} /> Todo
+                        </button>
+                    )}
+
+                    {status === "in-progress" && (
+                        <button 
+                            className="rounded-xl bg-green-500 p-2 hover:bg-green-700"
+                            onClick={() => onStatusChange("done")}
+                        >
+                            Done <FontAwesomeIcon icon={faCircleArrowRight} />
+                        </button>
+                    )}
+                </CanAccess>
             </div>
 
         )

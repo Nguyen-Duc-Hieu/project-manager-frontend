@@ -4,6 +4,8 @@ import ProjectCard from "../components/ProjectCard.jsx"
 import ProjectForm from "../components/ProjectForm.jsx"
 import { useQuery } from "@tanstack/react-query"
 import { Loader2 } from 'lucide-react';
+import CanAccess from "../components/CanAccess.jsx"
+import { PERMISSIONS } from '../data/permissionData.js'
 
 export default function ProjectList() {
     const {
@@ -53,12 +55,17 @@ export default function ProjectList() {
                         {isFetching ? "Đang tải..." : "Tải lại"}
                     </button>
                     {!isFormOpen.state && (
-                        <button
-                            className="bg-green-400 text-white border border-blue-300 rounded p-2 hover:bg-green-600"
-                            onClick={() => setIsFormOpen({ state: true, id: "" })}
+                        <CanAccess
+                            permissions={[PERMISSIONS.PROJECT_ADD]}
                         >
-                            Thêm dự án
-                        </button>
+                            <button
+                                className="bg-green-400 text-white border border-blue-300 rounded p-2 hover:bg-green-600"
+                                onClick={() => setIsFormOpen({ state: true, id: "" })}
+                            >
+                                Thêm dự án
+                            </button>
+                        </CanAccess>
+                        
                     )}
                     
                 </div>

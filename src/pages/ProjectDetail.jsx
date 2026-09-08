@@ -13,6 +13,8 @@ import {
 import { useQuery } from "@tanstack/react-query"
 import { AnimatePresence } from "framer-motion"
 import TaskFilterForm from "../components/TaskFilterForm.jsx"
+import { PERMISSIONS } from "../data/permissionData.js"
+import CanAccess from "../components/CanAccess.jsx"
     
 export default function ProjectDetail() {
     const { projectId } = useParams()
@@ -92,12 +94,17 @@ export default function ProjectDetail() {
                         {isFetching ? "Refetching..." : (<FontAwesomeIcon icon={faRotateRight} />)}
                     </button>
                     {!isFormOpen.state && (
-                        <button
-                            className="bg-green-400 rounded-xl p-2 hover:bg-green-600"
-                            onClick={() => setIsFormOpen({ state: true, taskId: null })}
+                        <CanAccess
+                            permissions={[PERMISSIONS.TASK_ADD]}
                         >
-                            <FontAwesomeIcon icon={faPlus} />
-                        </button>
+                            <button
+                                className="bg-green-400 rounded-xl p-2 hover:bg-green-600"
+                                onClick={() => setIsFormOpen({ state: true, taskId: null })}
+                            >
+                                <FontAwesomeIcon icon={faPlus} /> Add
+                            </button>
+                        </CanAccess>
+                        
                     )}                    
                 </div>
 

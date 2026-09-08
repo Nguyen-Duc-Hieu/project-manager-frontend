@@ -9,6 +9,8 @@ import ProtectedRoute from './components/ProtectedRoute.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import Unauthorized from './pages/Unauthorized.jsx'
+import { PERMISSIONS } from './data/permissionData.js'
 
 
 const queryClient = new QueryClient({
@@ -36,6 +38,10 @@ const router = createBrowserRouter([
       element: <Register />,
     },
     {
+      path: "/unauthorized",
+      element: <Unauthorized />,
+    },
+    {
       element: <ProtectedRoute />,
       children: [
         {
@@ -43,16 +49,46 @@ const router = createBrowserRouter([
           element: <RootLayout />,
           children: [
             {
-              index: true,
-              element: <Dashboard />,
+              element: (
+                <ProtectedRoute 
+                  permissions={[PERMISSIONS.VIEW_DASHBOARD]} 
+                  requiredAll={true} 
+                />
+              ),
+              children: [
+                {
+                  index: true,
+                  element: <Dashboard />,
+                }
+              ]
             },
             {
-              path: "projects",
-              element: <ProjectList />,
+              element: (
+                <ProtectedRoute 
+                  permissions={[PERMISSIONS.PROJECT_READ]} 
+                  requiredAll={true} 
+                />
+              ),
+              children: [
+                {
+                  path: "projects",
+                  element: <ProjectList />,
+                }
+              ]
             },
             {
-              path: "projects/:projectId",
-              element: <ProjectDetail />,
+              element: (
+                <ProtectedRoute 
+                  permissions={[PERMISSIONS.TASK_READ]} 
+                  requiredAll={true} 
+                />
+              ),
+              children: [
+                {
+                  path: "projects/:projectId",
+                  element: <ProjectDetail />,
+                }
+              ]
             },
           ],
         }

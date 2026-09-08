@@ -1,18 +1,30 @@
 // import { useAuth } from '../context/AuthContext.jsx';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../stores/useAuthStore.js';
+import { usePermission } from '../hooks/usePermission.js';
 
-export default function ProtectedRoute() {
+export default function ProtectedRoute({ permissions = [], requiredAll = false }) {
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+    const { hasAllPermissions, hasSomePermissions } = usePermission();
+    const location = useLocation();
 
     if (!isAuthenticated) {
-        console.log("Người dùng chưa đăng nhập, chuyển hướng đến trang đăng nhập");
         return (
-            <Navigate to="/login" replace />
+            <Navigate to="/login" state={{ from: location }} replace />
         );
        
     }
-    console.log("Người dùng đã đăng nhập, cho phép truy cập vào các route con");
+
+    const isAuthorized = requiredAll 
+        ? hasAllPermissions(permissions) 
+        : hasSomePermissions(permissions);
+
+
+    if (!isAuthorized) {
+        return (
+            <Navigate to="/unauthorized" replace />
+        )
+    }
 
     return (    
         <Outlet />

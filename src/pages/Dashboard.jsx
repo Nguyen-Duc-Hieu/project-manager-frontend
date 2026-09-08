@@ -10,8 +10,7 @@ export default function Dashboard() {
     data: projects,
     isLoading: isProjectsLoading,
     isFetching: isProjectsFetching,
-    isError: isProjectsError,
-    error: projectsError
+
   } = useQuery({
     queryKey: ['projects'],
     queryFn: ({ signal }) => projectApi.getAllProjects(signal),
@@ -21,8 +20,7 @@ export default function Dashboard() {
     data: tasks, 
     isLoading: isTasksLoading,
     isFetching: isTasksFetching,
-    isError: isTasksError,
-    error: tasksError
+
   } = useQuery({
     queryKey: ['tasks'],
     queryFn: ({ signal }) => taskApi.getAllTasks(signal),
@@ -69,7 +67,7 @@ export default function Dashboard() {
     );
   }
 
-
+  
 
   const completedTasks = tasks.filter((t) => t.status === 'done').length;
   const completionRate = tasks.length > 0 ? Math.round((completedTasks / tasks.length) * 100) : 0;

@@ -17,12 +17,6 @@ export const useAuthStore = create(
                     set({ user: null, isAuthenticated: false });
                     useThemeStore.getState().setLightTheme(); // Reset theme to light on logout
                     console.log(`Người dùng ${userName} đã đăng xuất, xóa thông tin user khỏi localStorage`);
-                },
-                checkUser: () => {
-                    const storedUser = localStorage.getItem('user');
-                    if (storedUser) {
-                        set({ user: JSON.parse(storedUser), isAuthenticated: true });
-                    }
                 }
             }
         }),
