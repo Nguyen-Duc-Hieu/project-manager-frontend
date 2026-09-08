@@ -18,7 +18,7 @@ const sidebarData = [
     {
         icon: <FontAwesomeIcon icon={faChartBar} />,
         label: "Dashboard",
-        path: "/"
+        path: "/dashboard"
     },
     {
         icon: <FontAwesomeIcon icon={faListCheck} />,

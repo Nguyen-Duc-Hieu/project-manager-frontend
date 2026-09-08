@@ -11,6 +11,7 @@ import Register from './pages/Register.jsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Unauthorized from './pages/Unauthorized.jsx'
 import { PERMISSIONS } from './data/permissionData.js'
+import Home from './pages/Home.jsx'
 
 
 const queryClient = new QueryClient({
@@ -30,24 +31,27 @@ const queryClient = new QueryClient({
 
 const router = createBrowserRouter([
     {
-      path: "/login",
+      path: "login",
       element: <Login />,
     },
     {
-      path: "/register",
+      path: "register",
       element: <Register />,
     },
     {
-      path: "/unauthorized",
+      path: "unauthorized",
       element: <Unauthorized />,
     },
     {
       element: <ProtectedRoute />,
       children: [
         {
-          path: "/",
           element: <RootLayout />,
           children: [
+            {
+              path: "/",
+              element: <Home />,
+            },
             {
               element: (
                 <ProtectedRoute 
@@ -57,7 +61,7 @@ const router = createBrowserRouter([
               ),
               children: [
                 {
-                  index: true,
+                  path: "dashboard",
                   element: <Dashboard />,
                 }
               ]
